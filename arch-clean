@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Check for root privileges
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run this script with sudo: sudo $0"
+    exit 1
+fi
+
+# Clean pacman cache
+echo "Cleaning pacman cache..."
+pacman -Scc --noconfirm
+
+# Clean yay cache if available
+if command -v yay &> /dev/null; then
+    echo "Cleaning yay cache..."
+    yay -Scc --noconfirm
+fi
+
+# Find and optionally remove orphaned packages
+echo "Searching for orphaned packages..."
+orphans=$(pacman -Qttdq)
+
+if [ -n "$orphans" ]; then
+    echo "The following orphaned packages were found:"
+    echo "$orphans"
+    echo ""
+    read -p "Do you want to remove these packages? [y/N] " -n 1 -r
+    echo ""
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "$orphans" | pacman -Rns --noconfirm - 2>/dev/null || true
+        echo "Orphaned packages removed."
+    else
+        echo "Skipping orphaned packages removal."
+    fi
+else
+    echo "No orphaned packages found."
+fi
+
+# Find and optionally remove circular dependencies
+echo "Searching for circular dependencies..."
+circular=$(pacman -Qqd)
+
+if [ -n "$circular" ]; then
+    echo "The following packages may have circular dependencies:"
+    echo "$circular"
+    echo ""
+    read -p "Do you want to remove these packages? [y/N] " -n 1 -r
+    echo ""
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "$circular" | pacman -Rsu --noconfirm - 2>/dev/null || true
+        echo "Circular dependencies resolved."
+    else
+        echo "Skipping circular dependency removal."
+    fi
+else
+    echo "No circular dependencies found."
+fi
+
+echo "Operation completed."
