@@ -21,3 +21,5 @@ matugen image "$SELECTED_PATH"
 mkdir -p "$(dirname "$SYMLINK_PATH")"
 ln -sf "$SELECTED_PATH" "$SYMLINK_PATH"
 
+# === APPLY WALLPAPER ===
+awww img --transition-type any --transition-fps 60 "$SYMLINK_PATH"
