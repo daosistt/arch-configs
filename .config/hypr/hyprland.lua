@@ -192,3 +192,6 @@ dofile(config_dir .. "/binds.lua")({
     fileManager = fileManager,
     menu = menu,
 })
+
+hl.exec_cmd("systemctl --user start hyprpolkitagent")
+

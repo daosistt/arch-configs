@@ -8,6 +8,7 @@ return function(opts)
     hl.bind(mainMod .. "+Q", hl.dsp.window.close())
     hl.bind("CTRL+ALT+Delete", hl.dsp.exit())
     hl.bind(mainMod .. "+SHIFT+L", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprlock.sh"))
+    hl.bind(mainMod .. "+SHIFT+K", hl.dsp.exec_cmd("~/.config/hypr/scripts/Wlogout.sh"))
 
     -- Main apps
     hl.bind(mainMod .. "+T", hl.dsp.exec_cmd(terminal))
@@ -15,7 +16,6 @@ return function(opts)
     hl.bind(mainMod .. "+F", hl.dsp.exec_cmd('xdg-open "https://"'))
     hl.bind(mainMod .. "+A", hl.dsp.exec_cmd(menu))
     hl.bind(mainMod .. "+E", hl.dsp.exec_cmd(fileManager))
-    hl.bind(mainMod .. "+Y", hl.dsp.exec_cmd("kitty -e ranger"))
     hl.bind(mainMod .. "+SHIFT+C", hl.dsp.exec_cmd("code"))
     hl.bind(mainMod .. "+SHIFT+E", hl.dsp.exec_cmd("kitty yazi"))
 
